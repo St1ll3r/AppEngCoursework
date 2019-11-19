@@ -1,0 +1,19 @@
+body{
+  margin:0;
+  padding:0;
+  background-color: #efefef
+}
+main { padding: 1rem }
+#page_title{
+  font-family: 'Merriweather', serif;
+  text-align:center
+}
+#content {
+    background-color: white;
+    width: 80vw;
+    display: block;
+    margin: auto;
+    border: none;
+    resize: none;
+    height: 80vh;
+}
