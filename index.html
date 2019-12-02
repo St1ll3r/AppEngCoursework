@@ -1,16 +1,22 @@
-<html>
+<html lang="en">
+<meta charset="utf-8">
 <head>
   <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <title>Outline Editor</title>
 </head>
-<main>
- 
-  <header>
-    <h1 id=page_title>Outline Editor</h1>
-    <div class="toolbar">Lines: <p id="lineCount"></p></div> 
-  </header>
-  <div id="mainTextArea"></div>
-</main>
+<body class="nm-background">
+  <main>
+    <header>
+      <h1 id=page_title>Outline Editor</h1>
+      <div class="counters">
+        <div class="counter">Lines: <p class="counterContent" id="lineCounter"></p></div>
+        <div class="counter">Paragraphs: <p class="counterContent" id="paragraphsCounter"></p></div>
+        <div class="counter">Outlines: <p class="counterContent" id="outlinesCounter"></p></div>
+      </div>
+    </header>
+    <div class="nm-textArea" id="mainTextArea"></div>
+  </main>
+</body>
 <script src="js/index.js"></script>
 </html>
