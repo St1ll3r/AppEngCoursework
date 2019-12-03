@@ -5,17 +5,22 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <title>Outline Editor</title>
 </head>
-<body class="nm-background">
+<body class="dm-background">
   <main>
     <header>
       <h1 id=page_title>Outline Editor</h1>
+      <div class="theme">
+        <p class="theme-label">Theme</p>
+        <button id="light-theme" class="theme-button theme-left">Light</button>
+        <button id="dark-theme" class="theme-button theme-right theme-selected">Dark</button>
+      </div>
       <div class="counters">
         <div class="counter">Lines: <p class="counterContent" id="lineCounter"></p></div>
         <div class="counter">Paragraphs: <p class="counterContent" id="paragraphsCounter"></p></div>
         <div class="counter">Outlines: <p class="counterContent" id="outlinesCounter"></p></div>
       </div>
     </header>
-    <div class="nm-textArea" id="mainTextArea"></div>
+    <div class="dm-textArea" id="mainTextArea"></div>
   </main>
 </body>
 <script src="js/index.js"></script>

@@ -2,6 +2,9 @@
 *:focus {
   outline: none;
 }
+html{
+  font-family: 'Merriweather', serif;
+}
 body{
   margin:0;
   padding:0;
@@ -28,7 +31,6 @@ main { padding: 1rem }
 }
 .line{
   width:100%;
-  display: table-row;
 }
 .counters{
   margin: 1.5rem 0;
@@ -46,11 +48,10 @@ main { padding: 1rem }
 .icon{
   font-weight: bold;
   font-size: 2rem;
-  display: table;
+  display: inline-flex;
   vertical-align: middle;
 }
 .text{
-  display: table-cell;
   vertical-align: middle;
 }
 .outlineLevel1{
@@ -74,20 +75,50 @@ main { padding: 1rem }
 .outlineLevel7{
   margin-left: 7rem;
 }
-.nm-background{
-  background-color: #131313;
-  color:white;
-}
-.nm-background{
-  background-color: #131313;
-  color:white;
-}
-.nm-textArea{
-  background-color: #363636 !important;
-}
 .paragraph::before {
   content: "•";
+  vertical-align: middle;
 }
-/* .text{
-  width:100%
-} */
+.text{
+  width:75vw;
+}
+.theme{
+  text-align: right;
+}
+.theme-label{
+  margin: 0.5rem;
+  font-weight: bold;
+}
+.theme-button{
+  background-color: grey;
+  border: 1px solid black;
+  color:white;
+  cursor: pointer;
+}
+.theme-right{
+  border-radius: 0rem 1rem 1rem 0rem;
+}
+.theme-left{
+  border-radius: 1rem 0rem 0rem 1rem;
+}
+.theme-selected{
+  background-color:darkgray !important;
+}
+
+/*dark theme*/
+.dm-background{
+  background-color: #131313 !important;
+  color:white !important;
+}
+.dm-textArea{
+  background-color: #363636 !important;
+}
+
+/*light theme*/
+.lm-background{
+  background-color: #efefef !important;
+  color:black !important;
+}
+.lm-textArea{
+  background-color: white !important;
+}
