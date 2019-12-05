@@ -24,7 +24,16 @@ window.mainTextArea.onkeydown = (event) => {
     event.preventDefault();
     return false;
   }
-  else if(event.code === "Tab") { /* disable underline */
+  else if(event.code === "Backspace") { /* deletes current line if empty */
+    let line = document.activeElement;
+    if(line.innerHTML === ""){
+      if(line.parentNode.classList.contains("outline")){
+        deleteLineType("outline");
+      }
+      /*deleteLine(line);*/
+    }
+  }
+  else if(event.code === "Tab") { /* set line to become an outline line */
     setLineType("outline");
     return false;
   }
@@ -60,6 +69,23 @@ function createLine(){
   element.focus();
   setLineType("paragraph");
   countersOperations("line","add");
+}
+
+function deleteLineType(typeOfElement){
+  let line = document.activeElement;
+  switch(typeOfElement){
+    case "outline":
+      if((line.parentNode).parentNode == document.getElementById("mainTextArea")) { /* check if its a root level outline */
+        resetLineType(line);
+        line.parentElement.classList.remove("outline");
+        line.parentNode.classList.add("paragraph");
+        line.parentElement.children[0].remove();
+        countersOperations("outlineRoot","subtract");
+      }else{
+        /* when its a child */
+      }
+    break;
+  }
 }
 
 function setLineType(typeOfElement){
@@ -233,8 +259,12 @@ function getFocusedElement(){
 -hide lower levels
   ->hide childrens until next outline
 
--when stuff is created, create objects and store them immediately in local storage 
+-when stuff is created, create objects and store them immediately in local storage
   ->(still need to think about creating and object that stores objects, then only store one object in the local storage and access the nested content)
+
+-if outline is created eveything underneath become its children (for loop)
+
+
 
 ~~~~~~~~~~~
 ~DONE LIST~
