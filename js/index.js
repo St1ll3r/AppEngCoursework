@@ -61,12 +61,17 @@ function createLine(){
   element.setAttribute("class", "line");
   element.setAttribute("id", lineCounter);
   element.setAttribute("contenteditable", "true");
-  /*if(element.parentNode.id != mainTextArea)*/
   document.getElementById("mainTextArea").appendChild(element);
-  /*if(hasOutlineClass == true){
-    line.classList.add("outlineLevel1");
-  }*/
   element.focus();
+  if(element.previousSibling.classList.contains("root") || element.previousSibling.classList.contains("outlineChild")){
+    console.log("eureka crl");
+    element.classList.add("outlineChild");
+    element.classList.add("outlineLevel1");
+    console.log(element.id);
+    console.log(element.previousSibling.id);
+    document.getElementById(element.previousSibling.id).appendChild(element);
+    element.focus();
+  }
   setLineType("paragraph");
   countersOperations("line","add");
 }
@@ -94,13 +99,11 @@ function setLineType(typeOfElement){
   let hasOutlineClass = line.parentNode.classList.contains("outline");
   switch(typeOfElement){
     case "outline":
-      if(hasOutlineClass != true){
-        /* if(focusedElement is child of something that is not main text area, create sub level under parent) */
-        /* else(create root level outline) */
+      if(hasOutlineClass != true || line.parentNode.classList.contains("root") || line.parentNode.classList.contains("outlineChild")){
         if((line.parentNode).parentNode == document.getElementById("mainTextArea")) { /* check if its a root level outline */
           resetLineType(line);
           let expandElement = document.createElement("div");
-          line.parentNode.classList.add("outline");
+          line.parentNode.classList.add("outline", "root");
           line.parentNode.classList.remove("paragraph");
           expandElement.classList.add("icon");
           expandElement.append("-");
@@ -108,19 +111,38 @@ function setLineType(typeOfElement){
           textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
           document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
           countersOperations("outlineRoot","add");
-        }else{
-          /* when its a child */
+        }else if((line.parentNode).parentNode.classList.contains("outline")){
+          let expandElement = document.createElement("div");
+          line.parentNode.classList.add("outline", "root");
+          line.parentNode.classList.remove("paragraph");
+          expandElement.classList.add("icon");
+          expandElement.append("-");
+          document.getElementById(line.parentNode.id).appendChild(expandElement);
+          textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
+          document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
+          countersOperations("outlineRoot","add");
         }
       }
     break;
     case "paragraph":
+      /*
+
+      */
+
+
       line.classList.add("paragraph");
       line.setAttribute("id", paragraphCounter);
       textContent.classList.add("text");
-      if(hasOutlineClass == true){
+
+      if(line.previousSibling != null && line.previousSibling.classList.contains("root") || line.previousSibling.classList.contains("outlineChild")){
+        line.classList.add("outlineChild");
         line.classList.add("outlineLevel1");
+        document.getElementById(line.id).appendChild(textContent);
+        console.log(line.previousSibling.id);
+      }else{
+        document.getElementById(line.id).appendChild(textContent);
+        console.log("nope");
       }
-      document.getElementById(line.id).appendChild(textContent);
       textContent.setAttribute("contenteditable", "true");
       line.setAttribute("contenteditable", "false");
       textContent.focus();
