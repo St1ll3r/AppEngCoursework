@@ -1,0 +1,23 @@
+{
+  "name": "appengcoursework",
+  "version": "1.0.0",
+  "description": "The coursework for Application Engineering Unit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node js/init.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/St1ll3r/AppEngCoursework.git"
+  },
+  "author": "Jorge Ramos (up888470)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/St1ll3r/AppEngCoursework/issues"
+  },
+  "homepage": "https://github.com/St1ll3r/AppEngCoursework#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

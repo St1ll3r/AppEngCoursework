@@ -20,7 +20,7 @@ loadTheme();
 
 window.mainTextArea.onkeydown = (event) => {
   if(event.code === "Enter") { /* disable paragraph */
-    createLine();
+    createLine(document.activeElement);
     event.preventDefault();
     return false;
   }
@@ -56,39 +56,66 @@ window.mainTextArea.onkeydown = (event) => {
 /* lines functions */
 /* =============== */
 
-function createLine(){
+function createLine(previousLine){
   let element = document.createElement("div");
   element.setAttribute("class", "line");
   element.setAttribute("id", lineCounter);
   element.setAttribute("contenteditable", "true");
-  document.getElementById("mainTextArea").appendChild(element);
-  element.focus();
-  if(element.previousSibling.classList.contains("root") || element.previousSibling.classList.contains("outlineChild")){
-    console.log("eureka crl");
-    element.classList.add("outlineChild");
-    element.classList.add("outlineLevel1");
-    console.log(element.id);
-    console.log(element.previousSibling.id);
-    document.getElementById(element.previousSibling.id).appendChild(element);
+
+  if(document.getElementById("starter").nextElementSibling == null || previousLine.parentElement.classList.contains("outline") != true){ /* root level */
+    console.log("is null");
+    document.getElementById("mainTextArea").appendChild(element);
+    element.focus();
+  }else if(previousLine.parentElement.classList.contains("outline")){
+    /* child level */
+    while(previousLine.parentElement.classList.contains("root") != true){
+      previousLine = previousLine.parentElement;
+      console.log(previousLine);
+    }
+    element.classList.add("outlineMargin");
+    document.getElementById(previousLine.parentElement.id).appendChild(element);
     element.focus();
   }
   setLineType("paragraph");
   countersOperations("line","add");
 }
 
+
+
+  /*if(element.previousSibling != null && element.previousSibling.classList.contains("root") || element.previousSibling.classList.contains("outlineChild")){
+    if(element.parentNode.classList.contains("outlineChild") != true){
+      element.classList.add("outlineLevel1");
+    }else if(element.parentNode.classList.contains("outlineLevel1")){
+      element.classList.add("outlineLevel2");
+    }else if(element.parentNode.classList.contains("outlineLevel2")){
+      element.classList.add("outlineLevel3");
+    }else if(element.parentNode.classList.contains("outlineLevel3")){
+      element.classList.add("outlineLevel4");
+    }else if(element.parentNode.classList.contains("outlineLevel4")){
+      element.classList.add("outlineLevel5");
+    }else if(element.arentNode.classList.contains("outlineLevel5")){
+      element.classList.add("outlineLevel6");
+    }else if(element.parentNode.classList.contains("outlineLevel6")){
+      element.classList.add("outlineLevel7");
+    }
+    if(document.getElementById(element.parentNode) != null){
+      document.getElementById.appendChild(element);
+      element.classList.add("outlineChild");
+      element.focus();
+    }
+  }*/
+
+
+
 function deleteLineType(typeOfElement){
   let line = document.activeElement;
   switch(typeOfElement){
     case "outline":
-      if((line.parentNode).parentNode == document.getElementById("mainTextArea")) { /* check if its a root level outline */
-        resetLineType(line);
-        line.parentElement.classList.remove("outline");
-        line.parentNode.classList.add("paragraph");
-        line.parentElement.children[0].remove();
-        countersOperations("outlineRoot","subtract");
-      }else{
-        /* when its a child */
-      }
+      resetLineType(line);
+      line.parentElement.classList.remove("outline");
+      line.parentNode.classList.add("paragraph");
+      line.parentElement.children[0].remove();
+      countersOperations("outlineRoot","subtract");
     break;
   }
 }
@@ -96,11 +123,43 @@ function deleteLineType(typeOfElement){
 function setLineType(typeOfElement){
   let line = document.activeElement;
   let textContent = document.createElement("div");
+  switch(typeOfElement){
+    case "outline":
+      if(line.parentNode.classList.contains("outline") != true){
+        resetLineType(line);
+        let expandElement = document.createElement("div");
+        line.parentNode.classList.add("outline", "root");
+        line.parentNode.classList.remove("paragraph");
+        expandElement.classList.add("icon");
+        expandElement.append("-");
+        document.getElementById(line.parentNode.id).appendChild(expandElement);
+        textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
+        document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
+        countersOperations("outlineRoot","add");
+      }
+    break;
+    case "paragraph": /* add the text div to the line */
+      line.classList.add("paragraph");
+      line.setAttribute("id", paragraphCounter);
+      textContent.classList.add("text");
+      document.getElementById(line.id).appendChild(textContent);
+      textContent.setAttribute("contenteditable", "true");
+      line.setAttribute("contenteditable", "false");
+      textContent.focus();
+      countersOperations("paragraph","add");
+    break;
+  }
+}
+
+/*function setLineType(typeOfElement){
+  let line = document.activeElement;
+  let textContent = document.createElement("div");
   let hasOutlineClass = line.parentNode.classList.contains("outline");
+  let outlineLevel = 7;
   switch(typeOfElement){
     case "outline":
       if(hasOutlineClass != true || line.parentNode.classList.contains("root") || line.parentNode.classList.contains("outlineChild")){
-        if((line.parentNode).parentNode == document.getElementById("mainTextArea")) { /* check if its a root level outline */
+        if((line.parentNode).parentNode == document.getElementById("mainTextArea")) {
           resetLineType(line);
           let expandElement = document.createElement("div");
           line.parentNode.classList.add("outline", "root");
@@ -111,7 +170,7 @@ function setLineType(typeOfElement){
           textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
           document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
           countersOperations("outlineRoot","add");
-        }else if((line.parentNode).parentNode.classList.contains("outline")){
+        }else if(line.parentNode.classList.contains("outline") != true){
           let expandElement = document.createElement("div");
           line.parentNode.classList.add("outline", "root");
           line.parentNode.classList.remove("paragraph");
@@ -125,23 +184,15 @@ function setLineType(typeOfElement){
       }
     break;
     case "paragraph":
-      /*
-
-      */
-
-
       line.classList.add("paragraph");
       line.setAttribute("id", paragraphCounter);
       textContent.classList.add("text");
 
       if(line.previousSibling != null && line.previousSibling.classList.contains("root") || line.previousSibling.classList.contains("outlineChild")){
-        line.classList.add("outlineChild");
-        line.classList.add("outlineLevel1");
+        console.log(line.previousSibling);
         document.getElementById(line.id).appendChild(textContent);
-        console.log(line.previousSibling.id);
       }else{
         document.getElementById(line.id).appendChild(textContent);
-        console.log("nope");
       }
       textContent.setAttribute("contenteditable", "true");
       line.setAttribute("contenteditable", "false");
@@ -149,7 +200,7 @@ function setLineType(typeOfElement){
       countersOperations("paragraph","add");
     break;
   }
-}
+}*/
 
 function resetLineType(line){
   line.classList.remove("outline", "paragraph"); /* to add classes as they are created */
