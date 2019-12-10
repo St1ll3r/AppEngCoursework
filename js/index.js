@@ -6,6 +6,7 @@
 let lineCounter = 0;
 let paragraphCounter = 0;
 let outlineRootCounter = 0;
+let backSpaceControl = 0;
 
 createLine();
 loadTheme();
@@ -26,25 +27,26 @@ window.mainTextArea.onkeydown = (event) => {
   }
   else if(event.code === "Backspace") { /* deletes current line if empty */
     let line = document.activeElement;
-    let backSpaceControl = 0;
     if(line.innerHTML === ""){
       if(line.parentNode.classList.contains("outline")){
         deleteLineType("outline");
       }else{
         if(line.parentNode.classList.contains("line")){
-          document.getElementById(line.parentNode.parentNode.parentNode.id).appendChild(line.parentNode);
-          line.focus();
-        }
-        if(line.parentNode.parentNode == document.getElementById("mainTextArea")){
-          line.parentNode.classList.remove("outlineMargin");
+          console.log(backSpaceControl);
           if(backSpaceControl == 1){
-            line.parentElement.remove();
+            deleteLine(line);
+            backSpaceControl = 0;
+          }else{
+            document.getElementById(line.parentNode.parentNode.parentNode.id).appendChild(line.parentNode);
+            line.focus();
+            if(line.parentNode.parentNode == document.getElementById("mainTextArea")){
+              console.log("entrou");
+              line.parentNode.classList.remove("outlineMargin");
+              backSpaceControl = 1;
+            }
           }
-          backSpaceControl = 1;
         }
       }
-
-      /*deleteLine(line);*/
     }
   }
   else if(event.code === "Tab") { /* set line to become an outline line */
@@ -93,6 +95,10 @@ function createLine(previousLine){
   }
   setLineType("paragraph");
   countersOperations("line","add");
+}
+
+function deleteLine(line){
+  line.parentElement.remove();
 }
 
 function deleteLineType(typeOfElement){
