@@ -26,10 +26,24 @@ window.mainTextArea.onkeydown = (event) => {
   }
   else if(event.code === "Backspace") { /* deletes current line if empty */
     let line = document.activeElement;
+    let backSpaceControl = 0;
     if(line.innerHTML === ""){
       if(line.parentNode.classList.contains("outline")){
         deleteLineType("outline");
+      }else{
+        if(line.parentNode.classList.contains("line")){
+          document.getElementById(line.parentNode.parentNode.parentNode.id).appendChild(line.parentNode);
+          line.focus();
+        }
+        if(line.parentNode.parentNode == document.getElementById("mainTextArea")){
+          line.parentNode.classList.remove("outlineMargin");
+          if(backSpaceControl == 1){
+            line.parentElement.remove();
+          }
+          backSpaceControl = 1;
+        }
       }
+
       /*deleteLine(line);*/
     }
   }
@@ -66,13 +80,15 @@ function createLine(previousLine){
     document.getElementById("mainTextArea").appendChild(element);
     element.focus();
   }else if(previousLine.parentElement.classList.contains("outline") || previousLine.parentElement.classList.contains("outlineMargin")){
-    /* child level */
-    console.log(previousLine.parentElement);
     while(previousLine.parentElement.classList.contains("root") != true){
       previousLine = previousLine.parentElement;
+      console.log(previousLine);
     }
     element.classList.add("outlineMargin");
     document.getElementById(previousLine.parentElement.id).appendChild(element);
+    element.focus();
+  }else{
+    document.getElementById("mainTextArea").appendChild(element);
     element.focus();
   }
   setLineType("paragraph");
@@ -184,6 +200,19 @@ window.document.getElementById("dark-theme").addEventListener("click", function(
   setDarkTheme();
 });
 
+/*window.addEventListener('load', (event) => {
+  if(localStorage.getItem("content") != null){
+    document.getElementById("mainTextArea").innerHTML = localStorage.getItem("content");
+  }
+});*/
+
+window.addEventListener('beforeunload', function (e) {
+  content = document.getElementById("mainTextArea").innerHTML;
+  localStorage.setItem("content", content);
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+});
+
 function setLightTheme(){
   document.body.classList.remove("dm-Background", "lm-background");
   document.getElementById("mainTextArea").classList.remove("dm-textArea", "lm-textArea");
@@ -223,18 +252,6 @@ function loadTextContent(){
 /* =============================== */
 /* END of load user data functions */
 /* =============================== */
-
-/* ================= */
-/* testing functions */
-/* ================= */
-
-document.addEventListener("click", function(e) {
-  console.log(e.target);
-});
-
-function getFocusedElement(){
-  console.log(document.activeElement);
-}
 
 /* ======================== */
 /* END of testing functions */
