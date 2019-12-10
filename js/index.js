@@ -32,7 +32,6 @@ window.mainTextArea.onkeydown = (event) => {
         deleteLineType("outline");
       }else{
         if(line.parentNode.classList.contains("line")){
-          console.log(backSpaceControl);
           if(backSpaceControl == 1){
             deleteLine(line);
             backSpaceControl = 0;
@@ -40,7 +39,6 @@ window.mainTextArea.onkeydown = (event) => {
             document.getElementById(line.parentNode.parentNode.parentNode.id).appendChild(line.parentNode);
             line.focus();
             if(line.parentNode.parentNode == document.getElementById("mainTextArea")){
-              console.log("entrou");
               line.parentNode.classList.remove("outlineMargin");
               backSpaceControl = 1;
             }
@@ -84,7 +82,6 @@ function createLine(previousLine){
   }else if(previousLine.parentElement.classList.contains("outline") || previousLine.parentElement.classList.contains("outlineMargin")){
     while(previousLine.parentElement.classList.contains("root") != true){
       previousLine = previousLine.parentElement;
-      console.log(previousLine);
     }
     element.classList.add("outlineMargin");
     document.getElementById(previousLine.parentElement.id).appendChild(element);
@@ -259,9 +256,9 @@ function loadTextContent(){
 /* END of load user data functions */
 /* =============================== */
 
-/* ======================== */
-/* END of testing functions */
-/* ======================== */
+function insertAfter(el, referenceNode) {
+  referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
+}
 
 /* =================== */
 /* FUNCTIONALITY NOTES
@@ -297,44 +294,9 @@ function loadTextContent(){
 /* END of functionality notes */
 /* ========================== */
 
-
-
-
-
-
 /* ================= */
 /* trash bin of code */
 /* ================= */
-
-/* function createOutline(){ /* needs optimization */
-  /* if there is a root already, dont do shit */
-  /*let focusedElement = document.activeElement;
-  let expandElement = document.createElement("div");
-  let outlineDiv = document.createElement("div");
-  let rootDiv = document.createElement("div");
-  expandElement.append("-");
-  expandElement.classList.add("icon", "outlineContent");
-  focusedElement.classList.add("outlineContent");
-  outlineDiv.classList.add("outline");
-  rootDiv.classList.add("root");
-  outlineDiv.setAttribute("id", "0-outline"); /* change later, number of outlines */
-  /*rootDiv.setAttribute("id", "0-level"); /* change later, number of outlines */
-  /* document.getElementById("mainTextArea").insertBefore(expandElement, focusedElement);
-  document.getElementById("mainTextArea").insertBefore(rootDiv, expandElement);
-  document.getElementById("mainTextArea").insertBefore(outlineDiv, rootDiv);
-  rootDiv.appendChild(expandElement);
-  rootDiv.appendChild(focusedElement);
-  outlineDiv.appendChild(rootDiv);
-}
-
-function createSublevel(){
-  /* is child of a root element? if yes proceed */
- /* console.log("awodawjdaw");
-  let focusedElement = document.activeElement;
-  if(focusedElement.parentNode.classList.contains("root")){
-    console.log("fuck yeah");
-  }
-} */
 
 /* ======================== */
 /* END of trash bin of code */
