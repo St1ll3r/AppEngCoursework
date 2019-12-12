@@ -31,25 +31,36 @@ I've managed to create a tool that does the three of them and a few more things 
 
 I've decided to keep it as simple as possible for the user so, let's get started.
 
+___
+
 ### Creating paragraphs
 
 If you want to create a paragraph all you have to do is press **ENTER** and a new paragraph will be added to your content.
+
+___
 
 ### Creating headers
 
 If you want to transform the line you're typing on, in a **header**, press **TAB** and all the content that will come afterwards will be nested underneath this header. You'll also notice a minus sign behind your line, that means that line has just became an header.
 
+___
+
 ### Deleting a line/header
 
 All you need to do is press **BACKSPACE** until you reach the **beginning of the line**. If you want to delete an **header**, all you have to do is press it when there's no content on that line and the **header will be transformed back into a paragraph**. If you want to delete the whole line just press **BACKSPACE** when the line is empty and the **line will be deleted**.
+
+___
 
 ### Changing themes
 
 Just press one of the buttons on the left side of the page, with the theme (light or dark) you'd like to have underneath **Theme**.
 
+___
+
 ### Clearing all the content and starting from scratch
 
 Just press the button "Clear" on the right side of the page, underneath **Clear Content**.
+
 
 ## How I got this done
 
