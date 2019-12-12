@@ -61,10 +61,13 @@ ___
 
 Just press the button "Clear" on the right side of the page, underneath **Clear Content**.
 
+___
 
 ## How I got this done
 
 So as soon as I've seen the project briefing, I was quite confused and lost for the first few weeks after being announced but then I've discussed it with a few of my peers and kinda pictured something on my head that matched the criterias. From that point onwards I've analyzed a few paths to take in order to get this one and I've decided that nesting divs would be the easiest way to get it working as I wanted it to.
+
+___
 
 ### How does the whole thing work then?
 
