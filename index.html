@@ -9,10 +9,16 @@
   <main>
     <header>
       <h1 id=page_title>Outline Editor</h1>
-      <div class="theme">
-        <p class="theme-label">Theme</p>
-        <button id="light-theme" class="theme-button theme-left">Light</button>
-        <button id="dark-theme" class="theme-button theme-right theme-selected">Dark</button>
+      <div class="toolbar">
+        <div class="theme">
+          <p class="toolbar-label">Theme</p>
+          <button id="light-theme" class="theme-left">Light</button>
+          <button id="dark-theme" class="theme-right theme-selected">Dark</button>
+        </div>
+        <div class="clear">
+          <p class="toolbar-label">Clear Content</p>
+          <button id="clear-content" class="clear-button">Clear</button>
+        </div>
       </div>
       <div class="counters">
         <div class="counter">Lines: <p class="counterContent" id="lineCounter"></p></div>

@@ -127,7 +127,6 @@ function setLineType(typeOfElement){
         textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
         document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
         countersOperations("outlineRoot","add");
-        /*countersOperations("paragraph","subtract");*/
       }
     break;
     case "paragraph": /* add the text div to the line */
@@ -191,17 +190,9 @@ function updateCounterValues(){
 /* END of counter functions */
 /* ======================== */
 
-/* =============== */
-/* theme functions */
-/* =============== */
-
-window.document.getElementById("light-theme").addEventListener("click", function() {
-  setLightTheme();
-});
-
-window.document.getElementById("dark-theme").addEventListener("click", function() {
-  setDarkTheme();
-});
+/* =============================== */
+/* load previous content functions */
+/* =============================== */
 
 window.addEventListener('load', (event) => {
   if(localStorage.getItem("content") != null){
@@ -225,6 +216,27 @@ window.addEventListener('beforeunload', function (e) {
   e.returnValue = '';
 });
 
+/* ====================================== */
+/* END of load previous content functions */
+/* ====================================== */
+
+/* ================= */
+/* toolbar functions */
+/* ================= */
+
+window.document.getElementById("clear-content").addEventListener("click", function() {
+  document.getElementById("mainTextArea").innerHTML = "<div id='starter'></div>";
+  createLine();
+});
+
+window.document.getElementById("light-theme").addEventListener("click", function() {
+  setLightTheme();
+});
+
+window.document.getElementById("dark-theme").addEventListener("click", function() {
+  setDarkTheme();
+});
+
 function setLightTheme(){
   document.body.classList.remove("dm-Background", "lm-background");
   document.getElementById("mainTextArea").classList.remove("dm-textArea", "lm-textArea");
@@ -241,9 +253,9 @@ function setDarkTheme(){
   localStorage.setItem("theme", "dark");
 }
 
-/* ====================== */
-/* END of theme functions */
-/* ====================== */
+/* ======================== */
+/* END of toolbar functions */
+/* ======================== */
 
 /* ======================== */
 /* load user data functions */
@@ -265,10 +277,6 @@ function loadTextContent(){
 /* END of load user data functions */
 /* =============================== */
 
-function insertAfter(el, referenceNode) {
-  referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
-}
-
 /* =================== */
 /* FUNCTIONALITY NOTES
 /* =================== */
@@ -279,13 +287,13 @@ function insertAfter(el, referenceNode) {
 ~TO DO LIST~
 ~~~~~~~~~~~~
 
--hide lower levels
-  ->hide childrens until next outline
+-hide lower levels - not gonna be done
+  ->hide childrens until next outline - not gonna be done
 
 -when stuff is created, create objects and store them immediately in local storage
   ->(still need to think about creating and object that stores objects, then only store one object in the local storage and access the nested content)
 
--if outline is created eveything underneath become its children (for loop)
+-if outline is created eveything underneath become its children (for loop) - not gonna be done
 
 
 

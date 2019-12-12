@@ -64,19 +64,31 @@ main { padding: 1rem }
 .text{
   width:75vw;
 }
-.theme{
-  text-align: right;
-}
-.theme-label{
+.toolbar-label{
   margin: 0.5rem;
   font-weight: bold;
 }
-.theme-button{
+.clear{
+  text-align: right;
+  display: inline-block;
+  position: absolute;
+  right: 10vw;
+}
+.theme{
+  display:inline-block;
+}
+button{
   background-color: grey;
   border: 1px solid black;
   color:white;
   cursor: pointer;
 }
+.clear-button{
+  display: block;
+  margin: auto;
+  border-radius:1rem;
+}
+
 .theme-right{
   border-radius: 0rem 1rem 1rem 0rem;
 }
