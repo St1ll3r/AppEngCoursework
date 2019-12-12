@@ -4,8 +4,7 @@
 /* =========================== */
 
 let lineCounter = 0;
-let paragraphCounter = 0;
-let outlineRootCounter = 0;
+let outlineCounter = 0;
 let backSpaceControl = 0;
 
 createLine();
@@ -20,7 +19,7 @@ loadTheme();
 /* =============== */
 
 window.mainTextArea.onkeydown = (event) => {
-  if(event.code === "Enter") { /* disable paragraph */
+  if(event.code === "Enter") { /* disable built-in enter */
     createLine(document.activeElement);
     event.preventDefault();
     return false;
@@ -106,7 +105,7 @@ function deleteLineType(typeOfElement){
       line.parentElement.classList.remove("outline");
       line.parentNode.classList.add("paragraph");
       line.parentElement.children[0].remove();
-      countersOperations("outlineRoot","subtract");
+      countersOperations("outline","subtract");
     break;
   }
 }
@@ -126,18 +125,17 @@ function setLineType(typeOfElement){
         document.getElementById(line.parentNode.id).appendChild(expandElement);
         textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
         document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
-        countersOperations("outlineRoot","add");
+        countersOperations("outline","add");
       }
     break;
     case "paragraph": /* add the text div to the line */
       line.classList.add("paragraph");
-      line.setAttribute("id", paragraphCounter);
+      line.setAttribute("id", lineCounter);
       textContent.classList.add("text");
       document.getElementById(line.id).appendChild(textContent);
       textContent.setAttribute("contenteditable", "true");
       line.setAttribute("contenteditable", "false");
       textContent.focus();
-      countersOperations("paragraph","add");
     break;
   }
 }
@@ -159,22 +157,16 @@ function countersOperations(typeOfElement, operation){
     case "add":
       if(typeOfElement == "line"){
         lineCounter++;
-      }
-      else if(typeOfElement == "paragraph"){
-        paragraphCounter++;
-      }else if(typeOfElement == "outlineRoot"){
-        outlineRootCounter++;
+      }else if(typeOfElement == "outline"){
+        outlineCounter++;
       }
     break;
 
     case "subtract":
       if(typeOfElement == "line"){
         lineCounter--;
-      }
-      if(typeOfElement == "paragraph"){
-        paragraphCounter--;
-      }else if(typeOfElement == "outlineRoot"){
-        outlineRootCounter--;
+      }else if(typeOfElement == "outline"){
+        outlineCounter--;
       }
     break;
   }
@@ -183,7 +175,7 @@ function countersOperations(typeOfElement, operation){
 
 function updateCounterValues(){
   document.getElementById("lineCounter").textContent = lineCounter;
-  document.getElementById("outlineCounter").textContent = outlineRootCounter;
+  document.getElementById("outlineCounter").textContent = outlineCounter;
 }
 
 /* ======================== */
@@ -225,7 +217,10 @@ window.addEventListener('beforeunload', function (e) {
 /* ================= */
 
 window.document.getElementById("clear-content").addEventListener("click", function() {
+
   document.getElementById("mainTextArea").innerHTML = "<div id='starter'></div>";
+  lineCounter = 0;
+  outlineCounter = 0;
   createLine();
 });
 
