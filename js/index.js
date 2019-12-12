@@ -4,7 +4,7 @@
 /* =========================== */
 
 let lineCounter = 0;
-let outlineCounter = 0;
+let headerCounter = 0;
 let backSpaceControl = 0;
 
 createLine();
@@ -27,8 +27,8 @@ window.mainTextArea.onkeydown = (event) => {
   else if(event.code === "Backspace") { /* deletes current line if empty */
     let line = document.activeElement;
     if(line.innerHTML === ""){
-      if(line.parentNode.classList.contains("outline")){
-        deleteLineType("outline");
+      if(line.parentNode.classList.contains("header")){
+        deleteLineType("header");
       }else{
         if(line.parentNode.classList.contains("line")){
           if(backSpaceControl == 1){
@@ -38,7 +38,7 @@ window.mainTextArea.onkeydown = (event) => {
             document.getElementById(line.parentNode.parentNode.parentNode.id).appendChild(line.parentNode);
             line.focus();
             if(line.parentNode.parentNode == document.getElementById("mainTextArea")){
-              line.parentNode.classList.remove("outlineMargin");
+              line.parentNode.classList.remove("headerMargin");
               backSpaceControl = 1;
             }
           }
@@ -46,8 +46,8 @@ window.mainTextArea.onkeydown = (event) => {
       }
     }
   }
-  else if(event.code === "Tab") { /* set line to become an outline line */
-    setLineType("outline");
+  else if(event.code === "Tab") { /* set line to become an header line */
+    setLineType("header");
     return false;
   }
   else if(event.code === "KeyB" && event.ctrlKey) { /* disable bold */
@@ -78,11 +78,11 @@ function createLine(previousLine){
   if(document.getElementById("starter").nextElementSibling == null){ /* root level */
     document.getElementById("mainTextArea").appendChild(element);
     element.focus();
-  }else if(previousLine.parentElement.classList.contains("outline") || previousLine.parentElement.classList.contains("outlineMargin")){
+  }else if(previousLine.parentElement.classList.contains("header") || previousLine.parentElement.classList.contains("headerMargin")){
     while(previousLine.parentElement.classList.contains("root") != true){
       previousLine = previousLine.parentElement;
     }
-    element.classList.add("outlineMargin");
+    element.classList.add("headerMargin");
     document.getElementById(previousLine.parentElement.id).appendChild(element);
     element.focus();
   }else{
@@ -100,12 +100,12 @@ function deleteLine(line){
 function deleteLineType(typeOfElement){
   let line = document.activeElement;
   switch(typeOfElement){
-    case "outline":
+    case "header":
       resetLineType(line);
-      line.parentElement.classList.remove("outline");
+      line.parentElement.classList.remove("header");
       line.parentNode.classList.add("paragraph");
       line.parentElement.children[0].remove();
-      countersOperations("outline","subtract");
+      countersOperations("header","subtract");
     break;
   }
 }
@@ -114,18 +114,18 @@ function setLineType(typeOfElement){
   let line = document.activeElement;
   let textContent = document.createElement("div");
   switch(typeOfElement){
-    case "outline":
-      if(line.parentNode.classList.contains("outline") != true){
+    case "header":
+      if(line.parentNode.classList.contains("header") != true){
         resetLineType(line);
         let expandElement = document.createElement("div");
-        line.parentNode.classList.add("outline", "root");
+        line.parentNode.classList.add("header", "root");
         line.parentNode.classList.remove("paragraph");
         expandElement.classList.add("icon");
         expandElement.append("-");
         document.getElementById(line.parentNode.id).appendChild(expandElement);
         textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
         document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
-        countersOperations("outline","add");
+        countersOperations("header","add");
       }
     break;
     case "paragraph": /* add the text div to the line */
@@ -141,7 +141,7 @@ function setLineType(typeOfElement){
 }
 
 function resetLineType(line){
-  line.classList.remove("outline", "paragraph"); /* to add classes as they are created */
+  line.classList.remove("header", "paragraph"); /* to add classes as they are created */
 }
 
 /* ====================== */
@@ -157,16 +157,16 @@ function countersOperations(typeOfElement, operation){
     case "add":
       if(typeOfElement == "line"){
         lineCounter++;
-      }else if(typeOfElement == "outline"){
-        outlineCounter++;
+      }else if(typeOfElement == "header"){
+        headerCounter++;
       }
     break;
 
     case "subtract":
       if(typeOfElement == "line"){
         lineCounter--;
-      }else if(typeOfElement == "outline"){
-        outlineCounter--;
+      }else if(typeOfElement == "header"){
+        headerCounter--;
       }
     break;
   }
@@ -175,7 +175,7 @@ function countersOperations(typeOfElement, operation){
 
 function updateCounterValues(){
   document.getElementById("lineCounter").textContent = lineCounter;
-  document.getElementById("outlineCounter").textContent = outlineCounter;
+  document.getElementById("headerCounter").textContent = headerCounter;
 }
 
 /* ======================== */
@@ -190,7 +190,7 @@ window.addEventListener('load', (event) => {
   if(localStorage.getItem("content") != null){
     document.getElementById("mainTextArea").innerHTML = localStorage.getItem("content");
     document.getElementById("lineCounter").innerHTML = localStorage.getItem("lines");
-    document.getElementById("outlineCounter").innerHTML = localStorage.getItem("outlines");
+    document.getElementById("headerCounter").innerHTML = localStorage.getItem("headers");
     textNodes = document.querySelectorAll('.text');
     lastElement = textNodes[textNodes.length- 1];
     lastElement.focus();
@@ -204,7 +204,7 @@ window.addEventListener('beforeunload', function (e) {
   content = document.getElementById("mainTextArea").innerHTML;
   localStorage.setItem("content", content);
   localStorage.setItem("lines", document.getElementById("lineCounter").textContent);
-  localStorage.setItem("outlines", document.getElementById("outlineCounter").textContent);
+  localStorage.setItem("headers", document.getElementById("headerCounter").textContent);
   e.returnValue = '';
 });
 
@@ -220,7 +220,7 @@ window.document.getElementById("clear-content").addEventListener("click", functi
 
   document.getElementById("mainTextArea").innerHTML = "<div id='starter'></div>";
   lineCounter = 0;
-  outlineCounter = 0;
+  headerCounter = 0;
   createLine();
 });
 
@@ -271,45 +271,3 @@ function loadTextContent(){
 /* =============================== */
 /* END of load user data functions */
 /* =============================== */
-
-/* =================== */
-/* FUNCTIONALITY NOTES
-/* =================== */
-
-/*
-
-~~~~~~~~~~~~
-~TO DO LIST~
-~~~~~~~~~~~~
-
--hide lower levels - not gonna be done
-  ->hide childrens until next outline - not gonna be done
-
--when stuff is created, create objects and store them immediately in local storage
-  ->(still need to think about creating and object that stores objects, then only store one object in the local storage and access the nested content)
-
--if outline is created eveything underneath become its children (for loop) - not gonna be done
-
-
-
-~~~~~~~~~~~
-~DONE LIST~
-~~~~~~~~~~~
-
--change icon/expand and w/e to a single div in every line, change class depending on type
-  ->create element
-  ->attach class depending on type of event triggered (i.e: tab gives outline)
-
-*/
-
-/* ========================== */
-/* END of functionality notes */
-/* ========================== */
-
-/* ================= */
-/* trash bin of code */
-/* ================= */
-
-/* ======================== */
-/* END of trash bin of code */
-/* ======================== */

@@ -54,7 +54,7 @@ main { padding: 1rem }
 .text{
   vertical-align: middle;
 }
-.outlineMargin{
+.headerMargin{
   margin-left: 1rem;
 }
 .paragraph::before {
