@@ -127,6 +127,7 @@ function setLineType(typeOfElement){
         textElement = document.getElementById(expandElement.parentNode.id).getElementsByClassName("text");
         document.getElementById(expandElement.parentNode.id).insertBefore(expandElement, textElement[0]);
         countersOperations("outlineRoot","add");
+        /*countersOperations("paragraph","subtract");*/
       }
     break;
     case "paragraph": /* add the text div to the line */
@@ -183,8 +184,7 @@ function countersOperations(typeOfElement, operation){
 
 function updateCounterValues(){
   document.getElementById("lineCounter").textContent = lineCounter;
-  document.getElementById("paragraphsCounter").textContent = paragraphCounter;
-  document.getElementById("outlinesCounter").textContent = outlineRootCounter;
+  document.getElementById("outlineCounter").textContent = outlineRootCounter;
 }
 
 /* ======================== */
@@ -203,16 +203,25 @@ window.document.getElementById("dark-theme").addEventListener("click", function(
   setDarkTheme();
 });
 
-/*window.addEventListener('load', (event) => {
+window.addEventListener('load', (event) => {
   if(localStorage.getItem("content") != null){
     document.getElementById("mainTextArea").innerHTML = localStorage.getItem("content");
+    document.getElementById("lineCounter").innerHTML = localStorage.getItem("lines");
+    document.getElementById("outlineCounter").innerHTML = localStorage.getItem("outlines");
+    textNodes = document.querySelectorAll('.text');
+    lastElement = textNodes[textNodes.length- 1];
+    lastElement.focus();
+    let tempString = lastElement.textContent;
+    lastElement.textContent = '';
+    lastElement.textContent = tempString;
   }
-});*/
+});
 
 window.addEventListener('beforeunload', function (e) {
   content = document.getElementById("mainTextArea").innerHTML;
   localStorage.setItem("content", content);
-  // Chrome requires returnValue to be set
+  localStorage.setItem("lines", document.getElementById("lineCounter").textContent);
+  localStorage.setItem("outlines", document.getElementById("outlineCounter").textContent);
   e.returnValue = '';
 });
 
@@ -271,7 +280,7 @@ function insertAfter(el, referenceNode) {
 ~~~~~~~~~~~~
 
 -hide lower levels
-  ->hide childrens until next outline 
+  ->hide childrens until next outline
 
 -when stuff is created, create objects and store them immediately in local storage
   ->(still need to think about creating and object that stores objects, then only store one object in the local storage and access the nested content)
